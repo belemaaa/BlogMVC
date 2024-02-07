@@ -18,9 +18,13 @@
   <ItemGroup>
     <None Remove="Data\" />
     <None Remove="Data\Enums\" />
+    <None Remove="Views\Club\" />
+    <None Remove="Views\Race\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="Data\Enums\" />
+    <Folder Include="Views\Club\" />
+    <Folder Include="Views\Race\" />
   </ItemGroup>
 </Project>

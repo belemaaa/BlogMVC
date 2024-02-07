@@ -16,7 +16,7 @@ namespace BlogMVC.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    state = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    State = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

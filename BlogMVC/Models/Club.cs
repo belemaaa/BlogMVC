@@ -13,7 +13,7 @@ namespace BlogMVC.Models
 		public string Title { get; set; }
 		public string Description { get; set; }
 		public string? Image { get; set; }
-        public ClubCategory ClubCategory { get; set; }
+		public ClubCategory ClubCategory { get; set; }
 
         [ForeignKey("Address")]
 		public int AddressId { get; set; }

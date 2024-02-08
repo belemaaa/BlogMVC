@@ -20,15 +20,15 @@
     <None Remove="Data\Enums\" />
     <None Remove="Views\Club\" />
     <None Remove="Views\Race\" />
-    <None Remove="Repository\" />
     <None Remove="Interfaces\" />
+    <None Remove="Repository\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="Data\Enums\" />
     <Folder Include="Views\Club\" />
     <Folder Include="Views\Race\" />
-    <Folder Include="Repository\" />
     <Folder Include="Interfaces\" />
+    <Folder Include="Repository\" />
   </ItemGroup>
 </Project>

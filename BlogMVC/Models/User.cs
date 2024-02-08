@@ -6,7 +6,6 @@ namespace BlogMVC.Models
 	public class User
 	{
 		[Key]
-
 		public string Id { get; set; }
 		public int? Pace { get; set; }
 		public int? Mileage { get; set; }

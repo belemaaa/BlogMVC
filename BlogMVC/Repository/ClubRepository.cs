@@ -51,7 +51,8 @@ namespace BlogMVC.Repository
 
         public bool Update(Club club)
         {
-            throw new NotImplementedException();
+            this._context.Update(club);
+            return Save();
         }
     }
 }

@@ -18,6 +18,6 @@ namespace BlogMVC.Interfaces
 		bool Delete(Club club);
 
 		bool Save();
-	}
+    }
 }
 

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using BlogMVC.Data;
 using BlogMVC.Models;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogMVC.Controllers
 {
@@ -22,6 +22,12 @@ namespace BlogMVC.Controllers
         {
             List<Race> races = _context.Races.ToList();
             return View(races);
+        }
+
+        public IActionResult Detail(int id)
+        {
+            Race race = _context.Races.Include(a => a.Address).FirstOrDefault(c => c.Id == id);
+            return View(race);
         }
     }
 }

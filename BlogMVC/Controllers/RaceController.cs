@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BlogMVC.Data;
 using BlogMVC.Interfaces;
 using BlogMVC.Models;
+using BlogMVC.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,6 +30,24 @@ namespace BlogMVC.Controllers
         {
             Race race = await _raceRepository.GetByIdAsync(id);
             return View(race);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Race race)
+        {
+            if (!(ModelState.IsValid))
+            {
+                return View(race);
+            }
+            _raceRepository.Add(race);
+            Console.WriteLine("New race created successfully");
+
+            return RedirectToAction("Index");
         }
     }
 }

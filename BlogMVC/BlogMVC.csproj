@@ -14,6 +14,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="CloudinaryDotNet" Version="1.25.1" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Data\" />
@@ -22,6 +23,9 @@
     <None Remove="Views\Race\" />
     <None Remove="Interfaces\" />
     <None Remove="Repository\" />
+    <None Remove="Helpers\" />
+    <None Remove="Services\" />
+    <None Remove="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
@@ -30,5 +34,8 @@
     <Folder Include="Views\Race\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Repository\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="Services\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
 </Project>

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BlogMVC.Data;
 using BlogMVC.Interfaces;
 using BlogMVC.Models;
+using BlogMVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,10 +14,12 @@ namespace BlogMVC.Controllers
     public class ClubController : Controller
     {
         private readonly IClubRepository _clubRepository;
+        private readonly IPhotoService _photoService;
 
-        public ClubController(IClubRepository clubRepository)
+        public ClubController(IClubRepository clubRepository, IPhotoService photoService)
         {
             this._clubRepository = clubRepository;
+            this._photoService = photoService;
         }
 
         public async Task<IActionResult> Index()
@@ -37,16 +40,25 @@ namespace BlogMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Club club)
+        public async Task<IActionResult> Create(CreateClubViewModel clubVM)
         {
-            if (!(ModelState.IsValid))
+            if (ModelState.IsValid)
             {
-                return View(club);
+                var result = await _photoService.AddPhotoAsync(clubVM.Image);
+                var club = new Club
+                {
+                    Title = clubVM.Title,
+                    Description = clubVM.Description,
+                    Image = result.Url.ToString()
+                };
+                _clubRepository.Add(club);
             }
-            _clubRepository.Add(club);
-            Console.WriteLine("New club created successfully");
+            else
+            {
+                ModelState.AddModelError("", "Photo Upload failed");
+            }
 
-            return RedirectToAction("Index");
+            return View(clubVM);
         }
     }
 

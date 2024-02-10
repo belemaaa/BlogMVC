@@ -1,4 +1,5 @@
 ﻿using BlogMVC.Data;
+using BlogMVC.Helpers;
 using BlogMVC.Interfaces;
 using BlogMVC.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,7 @@ public class Program
         builder.Services.AddControllersWithViews();
         builder.Services.AddScoped<IClubRepository, ClubRepository>();
         builder.Services.AddScoped<IRaceRepository, RaceRepository>();
+        builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
 
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
         {

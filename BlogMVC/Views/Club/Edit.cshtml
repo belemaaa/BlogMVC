@@ -1,15 +1,10 @@
 ﻿@using BlogMVC.ViewModels
-@model CreateRaceViewModel
+@model EditClubViewModel
 @using BlogMVC.Data.Enums;
 
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
 
-
-<form method="post" asp-action="Create" enctype="multipart/form-data">
+<form method="post" asp-action="Edit" enctype="multipart/form-data">
+    <input type="hidden" value="AddressId" id="AddressId" />
     <div class="form-group">
         <label asp-for="Title">Title</label>
         <input asp-for="Title" class="form-control" placeholder="title">
@@ -23,11 +18,11 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="RaceCategory">Race Category</label>
-        <select asp-for="RaceCategory" asp-items="@Html.GetEnumSelectList<RaceCategory>()">
+        <label asp-for="ClubCategory">Club Category</label>
+        <select asp-for="ClubCategory" asp-items="@Html.GetEnumSelectList<ClubCategory>()">
             <option>---Select---</option>
         </select>
-        <span asp-validation-for="RaceCategory" class="text-danger"></span>
+        <span asp-validation-for="ClubCategory" class="text-danger"></span>
     </div>
 
     <div class="form-group">
@@ -49,9 +44,9 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="Image">Image</label>
-        <input asp-for="Image" type="file" class="form-control" placeholder="image">
-        <span asp-validation-for="Image" class="text-danger"></span>
+        <label asp-for="URL">Image</label>
+        <input asp-for="URL" type="file" class="form-control" placeholder="image">
+        <span asp-validation-for="URL" class="text-danger"></span>
     </div>
 
 

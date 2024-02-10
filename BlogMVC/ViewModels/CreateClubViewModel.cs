@@ -1,5 +1,6 @@
 ﻿using System;
 using BlogMVC.Data.Enums;
+using BlogMVC.Models;
 
 namespace BlogMVC.ViewModels
 {
@@ -10,6 +11,7 @@ namespace BlogMVC.ViewModels
 		public string Description { get; set; }
 		public IFormFile Image { get; set; }
 		public ClubCategory ClubCategory { get; set; }
+		public Address Address { get; set; }
 	}
 }
 

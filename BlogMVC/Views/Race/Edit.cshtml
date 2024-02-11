@@ -1,5 +1,5 @@
 ﻿@using BlogMVC.ViewModels
-@model EditClubViewModel
+@model EditRaceViewModel
 @using BlogMVC.Data.Enums;
 
 
@@ -18,11 +18,11 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="ClubCategory">Club Category</label>
-        <select asp-for="ClubCategory" asp-items="@Html.GetEnumSelectList<ClubCategory>()">
+        <label asp-for="RaceCategory">Race Category</label>
+        <select asp-for="RaceCategory" asp-items="@Html.GetEnumSelectList<RaceCategory>()">
             <option>---Select---</option>
         </select>
-        <span asp-validation-for="ClubCategory" class="text-danger"></span>
+        <span asp-validation-for="RaceCategory" class="text-danger"></span>
     </div>
 
     <div class="form-group">

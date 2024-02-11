@@ -4,7 +4,7 @@ using BlogMVC.Models;
 
 namespace BlogMVC.ViewModels
 {
-	public class EditClubViewModel
+	public class EditRaceViewModel
 	{
         public int Id { get; set; }
 
@@ -16,7 +16,7 @@ namespace BlogMVC.ViewModels
 
         public string? URL { get; set; }
 
-        public ClubCategory ClubCategory { get; set; }
+        public RaceCategory RaceCategory { get; set; }
 
         public int AddressId { get; set; }
 

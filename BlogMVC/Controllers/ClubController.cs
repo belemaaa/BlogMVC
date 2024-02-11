@@ -88,30 +88,43 @@ namespace BlogMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, EditClubViewModel clubVM)
         {
-            if (!(ModelState.IsValid))
+            if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("", "Failed to update club object");
                 return View("Edit", clubVM);
             }
-            var userClub = await _clubRepository.GetByIdAsync(id);
+            var userClub = await _clubRepository.GetByIdAsyncNoTracking(id);
             if (userClub != null)
             {
-                try
+                string? uploadedImage = null;
+                if (clubVM.Image != null && clubVM.Image.Length > 0)
                 {
-                    await _photoService.DeletePhotoAsync(userClub.Image);
+                    try
+                    {
+                        await _photoService.DeletePhotoAsync(userClub.Image);
+                        var photoResult = await _photoService.AddPhotoAsync(clubVM.Image);
+                        if (photoResult != null)
+                        {
+                            uploadedImage = photoResult.Url.ToString();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ModelState.AddModelError("", "Could not delete photo");
+                        return View(clubVM);
+                    }
                 }
-                catch(Exception ex)
+                else
                 {
-                    ModelState.AddModelError("", "Could not delete photo");
-                    return View("Edit", clubVM);
+                    uploadedImage = userClub.Image;
                 }
-                var photoResult = await _photoService.AddPhotoAsync(clubVM.Image);
+
                 var club = new Club
                 {
                     Id = id,
                     Title = clubVM.Title,
                     Description = clubVM.Description,
-                    Image = photoResult.Url.ToString(),
+                    Image = uploadedImage,
                     ClubCategory = clubVM.ClubCategory,
                     AddressId = clubVM.AddressId,
                     Address = clubVM.Address

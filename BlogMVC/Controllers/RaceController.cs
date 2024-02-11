@@ -68,6 +68,77 @@ namespace BlogMVC.Controllers
 
             return View(raceVM);
         }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var race = await _raceRepository.GetByIdAsync(id);
+            if (race == null)
+                return View("Error");
+            var raceVM = new EditRaceViewModel
+            {
+                Title = race.Title,
+                Description = race.Description,
+                URL = race.Image,
+                RaceCategory = race.RaceCategory,
+                AddressId = race.AddressId,
+                Address = race.Address
+            };
+            return View(raceVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, EditRaceViewModel raceVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Failed to update race object");
+                return View("Edit", raceVM);
+            }
+            var userRace = await _raceRepository.GetByIdAsyncNoTracking(id);
+            if (userRace != null)
+            {
+                string? uploadedImage = null;
+                if (raceVM.Image != null && raceVM.Image.Length > 0)
+                {
+                    try
+                    {
+                        await _photoService.DeletePhotoAsync(userRace.Image);
+                        var photoResult = await _photoService.AddPhotoAsync(raceVM.Image);
+                        if (photoResult != null)
+                        {
+                            uploadedImage = photoResult.Url.ToString();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ModelState.AddModelError("", "Could not delete photo");
+                        return View(raceVM);
+                    }
+                }
+                else
+                {
+                    uploadedImage = userRace.Image;
+                }
+
+                var race = new Race
+                {
+                    Id = id,
+                    Title = raceVM.Title,
+                    Description = raceVM.Description,
+                    Image = uploadedImage,
+                    RaceCategory = raceVM.RaceCategory,
+                    AddressId = raceVM.AddressId,
+                    Address = raceVM.Address
+                };
+                _raceRepository.Update(race);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(raceVM);
+            }
+
+        }
     }
 }
 

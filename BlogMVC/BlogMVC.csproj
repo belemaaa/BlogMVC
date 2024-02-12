@@ -28,6 +28,7 @@
     <None Remove="Helpers\" />
     <None Remove="Services\" />
     <None Remove="ViewModels\" />
+    <None Remove="Views\Auth\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
@@ -39,5 +40,6 @@
     <Folder Include="Helpers\" />
     <Folder Include="Services\" />
     <Folder Include="ViewModels\" />
+    <Folder Include="Views\Auth\" />
   </ItemGroup>
 </Project>

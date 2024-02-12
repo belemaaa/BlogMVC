@@ -1,15 +1,18 @@
 ﻿using BlogMVC.Data;
 using BlogMVC.Helpers;
 using BlogMVC.Interfaces;
+using BlogMVC.Models;
 using BlogMVC.Repository;
 using BlogMVC.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlogMVC;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
@@ -20,17 +23,30 @@ public class Program
         builder.Services.AddScoped<IPhotoService, PhotoService>();
         builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
 
+
+        //db config
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
         {
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
         });
 
+        //identity framework
+        builder.Services.AddIdentity<User, IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>();
+        builder.Services.AddMemoryCache();
+        builder.Services.AddSession();
+        builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie();
+
         var app = builder.Build();
+
+
 
         // Data seeding
         if (args.Length == 1 && args[0].ToLower() == "seeddata")
         {
-            Seed.SeedData(app);
+            await Seed.SeedUsersAndRolesAsync(app);
+            //Seed.SeedData(app);
         }
 
         // Configure the HTTP request pipeline.

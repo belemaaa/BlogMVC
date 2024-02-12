@@ -34,7 +34,7 @@ namespace BlogMVC.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("", "Invalid input data");
+                TempData["Error"] = "Invalid input";
                 return View(loginVM);
             }
 
@@ -61,6 +61,50 @@ namespace BlogMVC.Controllers
             TempData["Error"] = "Invalid credentials. Please try again";
             return View(loginVM);
             
+        }
+
+        public IActionResult Register()
+        {
+            var response = new RegisterViewModel();
+            return View(response);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel registerVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Invalid input data");
+                return View(registerVM);
+            }
+
+            var user = await _userManager.FindByEmailAsync(registerVM.EmailAddress);
+            if (user != null)
+            {
+                TempData["Error"] = "User already exists";
+                return View(registerVM);
+            }
+            var newUser = new User()
+            {
+                UserName = registerVM.Username,
+                Email = registerVM.EmailAddress,
+                EmailConfirmed = true,
+            };
+            var newUserResponse = await _userManager.CreateAsync(newUser, registerVM.Password);
+            if (newUserResponse.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(newUser, UserRoles.User);
+                return RedirectToAction("Login");
+            }
+            TempData["Error"] = "An error occurred during registration";
+            return View(registerVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login");
         }
     }
 }

@@ -84,19 +84,22 @@ namespace BlogMVC.Controllers
                 TempData["Error"] = "User already exists";
                 return View(registerVM);
             }
+
             var newUser = new User()
             {
                 UserName = registerVM.Username,
                 Email = registerVM.EmailAddress,
-                EmailConfirmed = true,
             };
             var newUserResponse = await _userManager.CreateAsync(newUser, registerVM.Password);
+
             if (newUserResponse.Succeeded)
             {
                 await _userManager.AddToRoleAsync(newUser, UserRoles.User);
                 return RedirectToAction("Login");
             }
-            TempData["Error"] = "An error occurred during registration";
+            TempData["Error"] = "An error occurred. " +
+                "Note, username must not contain spaces and password must contain an uppercase and non-alphanumeric characters. " +
+                "Please try again.";
             return View(registerVM);
         }
 

@@ -139,6 +139,15 @@ namespace BlogMVC.Controllers
             }
 
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var club = await _raceRepository.GetByIdAsync(id);
+
+            _raceRepository.Delete(club);
+            return RedirectToAction("Index");
+        }
     }
 }
 

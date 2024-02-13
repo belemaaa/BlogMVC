@@ -138,6 +138,15 @@ namespace BlogMVC.Controllers
             }
                 
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var club = await _clubRepository.GetByIdAsync(id);
+
+            _clubRepository.Delete(club);
+            return RedirectToAction("Index");  
+        }
     }
 
 }

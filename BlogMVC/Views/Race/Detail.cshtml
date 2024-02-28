@@ -32,21 +32,21 @@
 
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <a asp-controller="Race"
-                                   asp-action="Detail"
-                                   asp-route-id="@Model.Id"
-                                   type="button"
-                                   class="btn btn-sm btn-outline-secondary">
-                                    View
-                                </a>
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                                {
+                                    <a asp-controller="Race"
+                                       asp-action="Edit"
+                                       asp-route-id="@Model.Id"
+                                       type="button"
+                                       class="btn btn-sm btn-outline-secondary">
+                                        Edit
+                                    </a>
 
-                                <a asp-controller="Race"
-                                   asp-action="Edit"
-                                   asp-route-id="@Model.Id"
-                                   type="button"
-                                   class="btn btn-sm btn-outline-secondary">
-                                    Edit
-                                </a>
+                                    <form method="post" asp-area="" asp-controller="Race" asp-action="Delete" asp-route-id="@Model.Id">
+                                        <button class="btn btn-outline-danger nav-item">Delete</button>
+                                    </form>
+
+                                }
                             </div>
 
                             <small class="text-muted">@Model.RaceCategory</small>
